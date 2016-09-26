@@ -15,7 +15,7 @@ int main(int argc,char* argv[])
 	int clnt_addr_sz;
 	int str_len;
 	char buf[BUF_SIZE];
-
+	int i=0;
 	if(argc!=2)
 	{
 		printf("Usage %s <port>\n",argv[0]);
@@ -42,17 +42,20 @@ int main(int argc,char* argv[])
 		error_handling(" listen error");
 
 	//接受数据
-	while(1)
+	for(i=0;i<5;i++)
 	{
 		clnt_addr_sz=sizeof(clnt_addr);
 		clnt_sock=accept(serv_sock,(struct sockaddr*)&clnt_addr,&clnt_addr_sz);
 		if(clnt_sock==-1)
 			error_handling("accept error");
-		
-		str_len=read(clnt_sock,buf,BUF_SIZE);
-		write(clnt_sock,buf,str_len);
+		while(str_len!=0)
+		{
+			str_len=read(clnt_sock,buf,BUF_SIZE);
+		    	write(clnt_sock,buf,str_len);
+		}
+		close(clnt_sock);
 	}
-
+	close(serv_sock);
 	return 0;
 }
 
