@@ -1,17 +1,17 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<sys/socket.h>
-#include<arpa/inet.h>
-#include<string.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<sys/socket.h>
+#include<arpa/inet.h>
+#include<string.h>
 ###
-#define BUF_SIZE 1024
-
-void error_handling(const char* message);
-
-int main(int argc ,char* argv[])
-{
-	int sock;
-	struct sockaddr_in addr;
+#define BUF_SIZE 1024
+
+void error_handling(const char* message);
+
+int main(int argc ,char* argv[])
+{
+	int sock;
+	struct sockaddr_in addr;
     int time_live;
 	FILE* fp;
     char buf[BUF_SIZE];
