@@ -102,6 +102,7 @@ int main(int argc,char* argv[])
     close(serv_sock);
     return 0;
 }
+
 void error_handling(const char* message)
 {
     fputs(message,stderr);
