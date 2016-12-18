@@ -3,7 +3,7 @@
 #include<unistd.h>
 #include<string.h>
 #include<sys/epoll.h>
-#include<sys/socket>
+#include<sys/socket.h>
 #include<arpa/inet.h>
 
 #define BUF_SIZE 30
@@ -15,7 +15,7 @@ void error_handler(const char* message);
 int main(int argc,char* argv[])
 {
     int serv_sock,clnt_sock;
-    struct serv_addr,clnt_addr;
+    struct sockaddr_in serv_addr,clnt_addr;
     int clnt_addr_sz;
     
     char buf[BUF_SIZE];
@@ -36,7 +36,7 @@ int main(int argc,char* argv[])
     if(bind(serv_sock,(struct sockaddr*)&serv_addr,sizeof(serv_addr))==-1)
         error_handler("bind() error");
 
-    if(listen(serv_addr,5)==-1)
+    if(listen(serv_sock,5)==-1)
         error_handler("listen() error");
 
     ep_fd=epoll_create(EPOLL_SIZE);
@@ -45,7 +45,7 @@ int main(int argc,char* argv[])
 
     epoll_ctl(ep_fd,EPOLL_CTL_ADD,serv_sock,&event);
     
-    pevents=(struct epoll_event*)malloc(sizeof(epoll_event)*EVENT_SIZE);
+    pevents=malloc(sizeof(struct epoll_event)*EVENT_SIZE);
 
     while(1)
     {
@@ -54,6 +54,7 @@ int main(int argc,char* argv[])
         {
             if(serv_sock==pevents[i].data.fd)
             {
+                clnt_addr_sz=sizeof(clnt_addr);
                 clnt_sock=accept(serv_sock,(struct sockaddr*)&clnt_addr,&clnt_addr_sz);
                 event.events=EPOLLIN;
                 event.data.fd=clnt_sock;
