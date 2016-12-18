@@ -80,5 +80,7 @@ int main(int argc,char* argv[])
 
 void error_handler(const char* message)
 {
-
+    fputs(message,stderr);
+    fputc('\n',stderr);
+    exit(1);
 }
